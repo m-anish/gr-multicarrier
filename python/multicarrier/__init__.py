@@ -20,4 +20,5 @@ except ModuleNotFoundError:
     pass
 
 # import any pure python here
+from .multicarrier_wbfm import multicarrier_wbfm
 #

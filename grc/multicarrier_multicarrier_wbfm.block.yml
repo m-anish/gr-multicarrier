@@ -1,0 +1,47 @@
+id: multicarrier_multicarrier_wbfm
+label: multicarrier_wbfm
+category: '[multicarrier]'
+
+templates:
+  imports: from gnuradio import multicarrier
+  make: multicarrier.multicarrier_wbfm(${num_carriers}, ${audio_rate}, ${bband_samp_rate}, ${amplitude}, ${0.25}, ${0.25}, ${0.25]})
+
+#  Make one 'parameters' list entry for every parameter you want settable from the GUI.
+#     Keys include:
+#     * id (makes the value accessible as keyname, e.g. in the make entry)
+#     * label (label shown in the GUI)
+#     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+#     * default
+parameters:
+- id: parametername_replace_me
+  label: FIX ME:
+  dtype: string
+  default: You need to fill in your grc/multicarrier_multicarrier_wbfm.block.yaml
+#- id: ...
+#  label: ...
+#  dtype: ...
+
+#  Make one 'inputs' list entry per input and one 'outputs' list entry per output.
+#  Keys include:
+#      * label (an identifier for the GUI)
+#      * domain (optional - stream or message. Default is stream)
+#      * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
+#      * vlen (optional - data stream vector length. Default is 1)
+#      * optional (optional - set to 1 for optional inputs. Default is 0)
+inputs:
+#- label: ...
+#  domain: ...
+#  dtype: ...
+#  vlen: ...
+#  optional: ...
+
+outputs:
+#- label: ...
+#  domain: ...
+#  dtype: ...
+#  vlen: ...
+#  optional: ...
+
+#  'file_format' specifies the version of the GRC yml format used in the file
+#  and should usually not be changed.
+file_format: 1

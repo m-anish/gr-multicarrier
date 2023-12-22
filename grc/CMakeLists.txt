@@ -7,5 +7,5 @@
 #
 
 install(FILES
-    DESTINATION share/gnuradio/grc/blocks
+    multicarrier_multicarrier_wbfm.block.yml DESTINATION share/gnuradio/grc/blocks
 )
