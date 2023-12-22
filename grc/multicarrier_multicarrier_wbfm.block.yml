@@ -13,10 +13,22 @@ templates:
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 #     * default
 parameters:
-- id: parametername_replace_me
-  label: FIX ME:
-  dtype: string
-  default: You need to fill in your grc/multicarrier_multicarrier_wbfm.block.yaml
+- id: num_carriers
+  label: Number of Carriers
+  dtype: int
+  default: 4
+- id: audio_rate
+  label: Audio rate
+  dtype: float
+  default: 48000
+- id: bband_samp_rate
+  label: Baseband sample rate
+  dtype: float
+  default: 4800000
+- id: amplitude
+  label: Amplitude [list]
+  dtype: raw
+  default: '[0.25, 0.25, 0.25, 0.25]'
 #- id: ...
 #  label: ...
 #  dtype: ...
@@ -29,6 +41,10 @@ parameters:
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
 inputs:
+- label: audio_in
+  dtype: float
+  vlen: 1
+  multiplicity: ${ num_carriers }
 #- label: ...
 #  domain: ...
 #  dtype: ...
@@ -36,6 +52,10 @@ inputs:
 #  optional: ...
 
 outputs:
+- label: wbfm_out
+  dtype: complex
+  vlen: 1
+  multiplicity: ${ num_carriers }
 #- label: ...
 #  domain: ...
 #  dtype: ...
