@@ -16,13 +16,28 @@ from gnuradio.filter import firdes
 from gnuradio.fft import window
 import sys
 import signal
+import logging
 
 class multicarrier_wbfm(gr.hier_block2):
     """
-    docstring for block multicarrier_wbfm
+    Multicarrier WBFM Block
+
+    Generates N independent baseband WFM signals from N audio streams.
+    By default the baseband signals are 200kHz wide. They can be passed
+    onto a polyphase synthesis block to spread them over a wider bandwidth.
+
+    Developed as part of the parallelcast project.
+
+    Args:
+        num_carriers: 'N' or the number of independent carriers (int)
+        audio_rate: Audio sample rate of each carrier (float)
+        bband_rate: Baseband sample rate of each independent WFM carrier (float)
+        amplitude: A num_carriers-wide list of floating point integers to multiply 
+                    each generated carrier. Helps with normalization of peak power. 
     """
-    def __init__(self, num_carriers=4,audio_rate=48000,bband_samp_rate=4800000,
-                 amplitude=[0.25, 0.25, 0.25, 0.25]):
+
+    def __init__(self, num_carriers=4,audio_rate=48000,bband_rate=200000,
+                 amplitude=[0.25]*4):
         gr.hier_block2.__init__(self,
             "multicarrier_wbfm",
             gr.io_signature.makev(num_carriers, num_carriers,
@@ -35,7 +50,7 @@ class multicarrier_wbfm(gr.hier_block2):
         ##################################################
         
         self.audio_rate = audio_rate
-        self.bband_samp_rate = bband_samp_rate
+        self.bband_rate = bband_rate
         self.amplitude = amplitude
         self.carriers = num_carriers
 
@@ -52,7 +67,7 @@ class multicarrier_wbfm(gr.hier_block2):
         for i in range(num_carriers):
             self.rational_resampler.append(
                 filter.rational_resampler_fff(
-                interpolation=int(bband_samp_rate),
+                interpolation=int(bband_rate),
                 decimation=int(audio_rate),
                 taps=[],
                 fractional_bw=0)
@@ -62,8 +77,8 @@ class multicarrier_wbfm(gr.hier_block2):
             )
             self.wfm_tx.append(
                 analog.wfm_tx(
-                audio_rate=int(bband_samp_rate),
-                quad_rate=int(bband_samp_rate),
+                audio_rate=int(bband_rate),
+                quad_rate=int(bband_rate),
                 tau=(75e-6),
                 max_dev=75e3,
                 fh=(-1.0),)
@@ -83,6 +98,10 @@ class multicarrier_wbfm(gr.hier_block2):
 
     def set_amplitude(self, amplitude):
         self.amplitude = amplitude
+
+        if len(amplitude) != self.carriers:
+            logging.warn("Number of items in the amplitude list do not match num_carriers")
+            
         for i in range(len(amplitude)):
             self.multiply_const.set_k(self.amplitude[i])
 
@@ -92,8 +111,8 @@ class multicarrier_wbfm(gr.hier_block2):
     def set_audio_rate(self, audio_rate):
         self.audio_rate = audio_rate
 
-    def get_bband_samp_rate(self):
-        return self.bband_samp_rate
+    def get_bband_rate(self):
+        return self.bband_rate
     
-    def set_bband_samp_rate(self,bband_samp_rate):
-        self.bband_samp_rate = bband_samp_rate
+    def set_bband_rate(self,bband_rate):
+        self.bband_rate = bband_rate

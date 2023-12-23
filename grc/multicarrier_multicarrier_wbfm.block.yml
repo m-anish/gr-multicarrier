@@ -4,7 +4,7 @@ category: '[multicarrier]'
 
 templates:
   imports: from gnuradio import multicarrier
-  make: multicarrier.multicarrier_wbfm(${num_carriers}, ${audio_rate}, ${bband_samp_rate}, ${amplitude})
+  make: multicarrier.multicarrier_wbfm(${num_carriers}, ${audio_rate}, ${bband_rate}, ${amplitude})
 
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
@@ -21,10 +21,10 @@ parameters:
   label: Audio rate
   dtype: float
   default: 48000
-- id: bband_samp_rate
-  label: Baseband sample rate
+- id: bband_rate
+  label: Baseband rate
   dtype: float
-  default: 4800000
+  default: 200000
 - id: amplitude
   label: Amplitude [list]
   dtype: raw
