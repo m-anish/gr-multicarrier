@@ -22,7 +22,8 @@ add_subdirectory(bindings)
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    multicarrier_wbfm.py DESTINATION ${GR_PYTHON_DIR}/gnuradio/multicarrier
+    multicarrier_wbfm.py
+    multicarrier_wbfm_pfs.py DESTINATION ${GR_PYTHON_DIR}/gnuradio/multicarrier
 )
 
 ########################################################################

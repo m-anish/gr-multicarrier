@@ -21,4 +21,5 @@ except ModuleNotFoundError:
 
 # import any pure python here
 from .multicarrier_wbfm import multicarrier_wbfm
+from .multicarrier_wbfm_pfs import multicarrier_wbfm_pfs
 #
