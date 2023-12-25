@@ -16,7 +16,11 @@ from gnuradio.filter import firdes
 from gnuradio.fft import window
 import sys
 import signal
+
 import logging
+
+#FIXME: Logging!!
+
 
 class multicarrier_wbfm(gr.hier_block2):
     """
@@ -41,7 +45,7 @@ class multicarrier_wbfm(gr.hier_block2):
         gr.hier_block2.__init__(self,
             "multicarrier_wbfm",
             gr.io_signature.makev(num_carriers, num_carriers,
-                                  [gr.sizeof_float*1]*num_carriers),  # Input signature
+                                  [gr.sizeof_float*1]*num_carriers),
             gr.io_signature.makev(num_carriers, num_carriers,
                                   [gr.sizeof_gr_complex*1]*num_carriers),)
         

@@ -5,7 +5,10 @@ category: '[multicarrier]'
 templates:
   imports: from gnuradio import multicarrier
   make: multicarrier.multicarrier_wbfm(${num_carriers}, ${audio_rate}, ${bband_rate}, ${amplitude})
-
+  callbacks:
+    - set_amplitude(${amplitude})
+    - set_audio_rate(${audio_rate})
+    - set_bband_rate(${bband_rate})
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
 #     * id (makes the value accessible as keyname, e.g. in the make entry)

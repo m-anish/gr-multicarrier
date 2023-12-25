@@ -1,11 +1,18 @@
 id: multicarrier_multicarrier_wbfm_pfs
-label: multicarrier_wbfm_pfs
+label: Multicarrier WBFM Polyphase
 category: '[multicarrier]'
 
 templates:
   imports: from gnuradio import multicarrier
-  make: multicarrier.multicarrier_wbfm_pfs(${num_carriers}, ${audio_rate}, ${bband_rate}, ${amplitude}, ${start_freq}, ${end_freq}, ${frequency}, ${96.0e6}, ${100.0e6}, ${104.0e6]}, ${lpf_taps})
-
+  make: multicarrier.multicarrier_wbfm_pfs(${num_carriers}, ${audio_rate}, ${bband_rate}, ${amplitude}, ${start_freq}, ${end_freq}, ${frequency}, ${lpf_taps})
+  callbacks:
+    - set_amplitude(${amplitude})
+    - set_audio_rate(${audio_rate})
+    - set_bband_rate(${bband_rate})
+    - set_start_freq(${start_freq})
+    - set_end_freq(${end_freq})
+    - set_frequency(${frequency})
+    - set_lpf_taps({$lpf_taps})
 #  Make one 'parameters' list entry for every parameter you want settable from the GUI.
 #     Keys include:
 #     * id (makes the value accessible as keyname, e.g. in the make entry)
@@ -13,10 +20,37 @@ templates:
 #     * dtype (e.g. int, float, complex, byte, short, xxx_vector, ...)
 #     * default
 parameters:
-- id: parametername_replace_me
-  label: FIX ME:
-  dtype: string
-  default: You need to fill in your grc/multicarrier_multicarrier_wbfm_pfs.block.yaml
+- id: num_carriers
+  label: Number of Carriers
+  dtype: int
+  default: 4
+- id: audio_rate
+  label: Audio rate
+  dtype: float
+  default: 48000
+- id: bband_rate
+  label: Baseband rate
+  dtype: float
+  default: 200000
+- id: amplitude
+  label: Amplitude [list]
+  dtype: float_vector
+  default: '[0.25, 0.25, 0.25, 0.25]'
+- id: start_freq
+  label: Start Frequency
+  dtype: float
+  default: 88.0e6
+- id: end_freq
+  label: End Frequency
+  dtype: float
+  default: 108.0e6
+- id: frequency
+  label: Frequency [list]
+  dtype: float_vector
+  default: '[92.0e6, 96.0e6, 100.0e6, 104.0e6]'
+- id: lpf_taps
+  label: Low Pass Filter taps
+  dtype: real_vector
 #- id: ...
 #  label: ...
 #  dtype: ...
@@ -29,6 +63,10 @@ parameters:
 #      * vlen (optional - data stream vector length. Default is 1)
 #      * optional (optional - set to 1 for optional inputs. Default is 0)
 inputs:
+- label: audio_in
+  dtype: float
+  vlen: 1
+  multiplicity: ${ num_carriers }
 #- label: ...
 #  domain: ...
 #  dtype: ...
@@ -36,6 +74,9 @@ inputs:
 #  optional: ...
 
 outputs:
+- label: pfs_out
+  dtype: complex
+  vlen: 1
 #- label: ...
 #  domain: ...
 #  dtype: ...
