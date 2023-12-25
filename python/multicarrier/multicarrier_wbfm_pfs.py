@@ -136,7 +136,7 @@ class multicarrier_wbfm_pfs(gr.hier_block2):
                          " list do not match num_carriers"))
 
         for i in range(len(amplitude)):
-            self.multiply_const.set_k(self.amplitude[i])
+            self.multiply_const[i].set_k(self.amplitude[i])
 
     def get_audio_rate(self):
         return self.audio_rate
